@@ -17,7 +17,8 @@
       "prefix": "bwm",
       "styles": [
         "styles.scss",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/font-awesome/scss/font-awesome.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
