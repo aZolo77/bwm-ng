@@ -17,6 +17,7 @@ export class RentalListComponent implements OnInit {
     rentalObserver.subscribe(
       (data: Rental[]) => {
         this.rentals = data;
+        console.log(data);
       },
       err => {},
       () => {}
