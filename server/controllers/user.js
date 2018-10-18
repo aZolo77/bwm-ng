@@ -1,0 +1,162 @@
+const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const { normalizeErrors } = require('../helpers/mongoose');
+const config = require('../config/dev');
+
+exports.auth = function(req, res) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: 'Data missing',
+          delail: 'Provide email and password!'
+        }
+      ]
+    });
+  }
+
+  User.findOne({ email }, (err, user) => {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+
+    if (!user) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'Invalid User',
+            delail: 'User does not exist!'
+          }
+        ]
+      });
+    }
+
+    // matching passwords
+    if (user.hasSamePassword(password)) {
+      // return jwt TOKEN
+      const token = jwt.sign(
+        {
+          userId: user.id,
+          username: user.username
+        },
+        config.SECRET,
+        { expiresIn: '1h' }
+      );
+      return res.json(token);
+    } else {
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'Wrong Data!',
+            delail: 'Wrong email or password!'
+          }
+        ]
+      });
+    }
+  });
+};
+
+exports.register = function(req, res) {
+  // destructurizing
+  const { username, email, password, passwordConfirmation } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: 'Data missing',
+          delail: 'Provide username, email and password!'
+        }
+      ]
+    });
+  }
+
+  if (password !== passwordConfirmation) {
+    return res.status(422).send({
+      errors: [
+        {
+          title: 'Invalid password',
+          delail: 'Password is not a same as a confirmation!'
+        }
+      ]
+    });
+  }
+
+  User.findOne({ email }, (err, existingUser) => {
+    if (err) {
+      return res.status(422).send({ errors: normalizeErrors(err.errors) });
+    }
+
+    if (existingUser) {
+      return res.status(422).send({
+        errors: [
+          {
+            title: 'Invalid email',
+            delail: 'User with the same email already exists!'
+          }
+        ]
+      });
+    }
+
+    const user = new User({
+      username,
+      email,
+      password
+    });
+
+    user.save(err => {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      return res.json({ registered: true });
+    });
+  });
+};
+
+// middlewear to protect routes
+exports.authMiddlewear = function(req, res, next) {
+  // get token from headers
+  const token = req.headers.authorization;
+
+  if (token) {
+    // get user info from token
+    debugger;
+    const user = parseToken(token);
+    User.findById(user.userId, function(err, user) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      if (user) {
+        // pass user to the next function
+        res.locals.user = user;
+        next();
+      } else {
+        return notAuthorized(res);
+      }
+    });
+  } else {
+    return notAuthorized(res);
+  }
+};
+
+// getting info by parsing our token (deleting 'Bearer')
+function parseToken(token) {
+  // let tokenWithoutBearer = token.split(' ')[1];
+  return jwt.verify(token.split(' ')[1], config.SECRET);
+}
+
+// error handler func for not authorized users
+function notAuthorized(res) {
+  return res.status(401).send({
+    errors: [
+      {
+        title: 'Not aurthorized',
+        delail: 'You need to login to get access!'
+      }
+    ]
+  });
+}
