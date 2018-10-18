@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Rental = require('../models/rental');
+// token middlewear
+const UserCtrl = require('../controllers/user');
 
 // = find all rentals
 router.get('', (req, res) => {
@@ -14,11 +16,9 @@ router.get('/:id', (req, res) => {
   const rentalId = req.params.id;
   Rental.findById(rentalId, (err, foundRental) => {
     if (err) {
-      res
-        .status(422)
-        .send({
-          errors: [{ title: 'Rental Error', delail: 'Could not find Rental!' }]
-        });
+      res.status(422).send({
+        errors: [{ title: 'Rental Error', delail: 'Could not find Rental!' }]
+      });
     }
     res.json(foundRental);
   });
