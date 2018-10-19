@@ -15,7 +15,7 @@ export class RentalService {
 
   // = возвращаем все варианты
   public getRentals(): Observable<any> {
-    // = USE pROXY
+    // = USE PROXY
     return this.http.get('/api/v1/rentals');
   }
 }

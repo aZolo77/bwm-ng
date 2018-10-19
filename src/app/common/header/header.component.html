@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">BookWithhMe</a>
+  <a class="navbar-brand" routerLink="/rentals">BookWithhMe</a>
   <form class="form-inline">
     <input class="form-control mr-sm-2 bwm-search" type="search" placeholder="Search" aria-label="Search">
     <button class="btn btn-outline-success my-2 my-sm-0 btn-bwm-search" type="submit">Search</button>
@@ -10,12 +10,22 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Login <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Register</a>
-      </li>
+      <ng-container *ngIf="!auth.isAuthenticated()">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/register" routerLinkActive="active-link">Register</a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="auth.isAuthenticated()">
+        <li class="nav-item">
+          <a class="nav-link">{{auth.getUserName()}}</a>
+        </li>
+        <li class="nav-item clickable">
+          <a class="nav-link" routerLink="/register" (click)="logout()">Logout</a>
+        </li>
+      </ng-container>
     </ul>
   </div>
 </nav>

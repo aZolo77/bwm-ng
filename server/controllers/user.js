@@ -11,7 +11,7 @@ exports.auth = function(req, res) {
       errors: [
         {
           title: 'Data missing',
-          delail: 'Provide email and password!'
+          detail: 'Provide email and password!'
         }
       ]
     });
@@ -27,7 +27,7 @@ exports.auth = function(req, res) {
         errors: [
           {
             title: 'Invalid User',
-            delail: 'User does not exist!'
+            detail: 'User does not exist!'
           }
         ]
       });
@@ -50,7 +50,7 @@ exports.auth = function(req, res) {
         errors: [
           {
             title: 'Wrong Data!',
-            delail: 'Wrong email or password!'
+            detail: 'Wrong email or password!'
           }
         ]
       });
@@ -67,7 +67,7 @@ exports.register = function(req, res) {
       errors: [
         {
           title: 'Data missing',
-          delail: 'Provide username, email and password!'
+          detail: 'Provide username, email and password!'
         }
       ]
     });
@@ -78,7 +78,7 @@ exports.register = function(req, res) {
       errors: [
         {
           title: 'Invalid password',
-          delail: 'Password is not a same as a confirmation!'
+          detail: 'Password is not a same as a confirmation!'
         }
       ]
     });
@@ -94,7 +94,7 @@ exports.register = function(req, res) {
         errors: [
           {
             title: 'Invalid email',
-            delail: 'User with the same email already exists!'
+            detail: 'User with the same email already exists!'
           }
         ]
       });
@@ -155,7 +155,7 @@ function notAuthorized(res) {
     errors: [
       {
         title: 'Not aurthorized',
-        delail: 'You need to login to get access!'
+        detail: 'You need to login to get access!'
       }
     ]
   });
