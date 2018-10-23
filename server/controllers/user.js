@@ -123,7 +123,6 @@ exports.authMiddlewear = function(req, res, next) {
 
   if (token) {
     // get user info from token
-    debugger;
     const user = parseToken(token);
     User.findById(user.userId, function(err, user) {
       if (err) {

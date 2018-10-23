@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config/dev');
 
-const Rental = require('./models/rental');
 const FakeDb = require('./fake-db');
 
 // = Routes
 const rentalRoutes = require('./routes/rentals'),
-  userRoutes = require('./routes/users');
+  userRoutes = require('./routes/users'),
+  bookingRoutes = require('./routes/bookings');
 
 mongoose
   .connect(config.DB_URI)
@@ -28,6 +28,7 @@ app.use(bodyParser.json());
 // = redirect routes
 app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/bookings', bookingRoutes);
 
 app.listen(config.PORT, (res, rej) => {
   console.log(`Server is running on ${config.PORT} port`);
