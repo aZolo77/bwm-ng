@@ -5,23 +5,31 @@ const Rental = require('../models/rental');
 const UserCtrl = require('../controllers/user');
 
 // = find all rentals
-router.get('', (req, res) => {
-  Rental.find({}, (err, foundRentals) => {
-    res.json(foundRentals);
-  });
+router.get('', UserCtrl.authMiddlewear, (req, res) => {
+  // get rentals without bookings
+  Rental.find({})
+    .select('-bookings')
+    .exec((err, foundRental) => {
+      res.json(foundRental);
+    });
 });
 
 // = find rental by its ID
-router.get('/:id', (req, res) => {
+router.get('/:id', UserCtrl.authMiddlewear, (req, res) => {
   const rentalId = req.params.id;
-  Rental.findById(rentalId, (err, foundRental) => {
-    if (err) {
-      res.status(422).send({
-        errors: [{ title: 'Rental Error', delail: 'Could not find Rental!' }]
-      });
-    }
-    res.json(foundRental);
-  });
+
+  // добавить в ответ user/bookings
+  Rental.findById(rentalId)
+    .populate('user', 'username -_id')
+    .populate('bookings', 'startAt endAt -_id')
+    .exec((err, foundRental) => {
+      if (err) {
+        return res.status(422).send({
+          errors: [{ title: 'Rental Error', delail: 'Could not find Rental!' }]
+        });
+      }
+      return res.json(foundRental);
+    });
 });
 
 module.exports = router;
