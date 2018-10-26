@@ -2,7 +2,7 @@
   <div class="upper-section">
     <div class="row">
       <div class="col-md-6">
-        <img src="{{rental.image}}" alt="">
+        <img src="{{rental.image}}" alt="" class="mb-3">
       </div>
       <div class="col-md-6">
         <!-- google-maps -->
@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <bwm-rental-detail-booking [price]="rental.dailyRate"></bwm-rental-detail-booking>
+        <bwm-rental-detail-booking [rental]="rental"></bwm-rental-detail-booking>
       </div>
     </div>
   </div>
