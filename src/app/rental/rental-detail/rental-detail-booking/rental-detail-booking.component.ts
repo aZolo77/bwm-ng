@@ -14,6 +14,7 @@ import { Booking } from '../../../booking/shared/booking.model';
 import { Rental } from '../../shared/rental.model';
 import { HelperService } from '../../../common/service/helper.service';
 import { BookingService } from '../../../booking/shared/booking.service';
+import { AuthService } from '../../../auth/shared/auth.service';
 import * as moment from 'moment';
 
 @Component({
@@ -57,6 +58,7 @@ export class RentalDetailBookingComponent implements OnInit {
     private modalService: NgbModal,
     private bookingService: BookingService,
     private toastr: ToastsManager,
+    public auth: AuthService,
     vcr: ViewContainerRef
   ) {
     this.toastr.setRootViewContainerRef(vcr);

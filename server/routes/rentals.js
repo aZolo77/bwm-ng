@@ -7,7 +7,7 @@ const UserCtrl = require('../controllers/user');
 const { normalizeErrors } = require('../helpers/mongoose');
 
 // = find rental by its ID
-router.get('/:id', UserCtrl.authMiddlewear, (req, res) => {
+router.get('/:id', (req, res) => {
   const rentalId = req.params.id;
 
   // добавить в ответ user/bookings
@@ -17,7 +17,7 @@ router.get('/:id', UserCtrl.authMiddlewear, (req, res) => {
     .exec((err, foundRental) => {
       if (err) {
         return res.status(422).send({
-          errors: [{ title: 'Rental Error', delail: 'Could not find Rental!' }]
+          errors: [{ title: 'Rental Error', detail: 'Could not find Rental!' }]
         });
       }
       return res.json(foundRental);
@@ -43,7 +43,7 @@ router.get('', (req, res) => {
           errors: [
             {
               title: 'No Rentals Found',
-              delail: `There are no rentals for city ${city}`
+              detail: `There are no rentals for city ${city}`
             }
           ]
         });

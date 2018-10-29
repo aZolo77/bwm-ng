@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bwm-header',
@@ -7,10 +8,17 @@ import { AuthService } from '../../auth/shared/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private router: Router) {}
 
   // clearing localStorage and logout
   public logout() {
     this.auth.logout();
+  }
+
+  //
+  search(city: string) {
+    city
+      ? this.router.navigate([`/rentals/${city}/homes`])
+      : this.router.navigate(['/rentals']);
   }
 }
