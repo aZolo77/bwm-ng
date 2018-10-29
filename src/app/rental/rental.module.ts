@@ -26,7 +26,10 @@ const routes: Routes = [
     path: 'rentals',
     component: RentalComponent,
     children: [
-      { path: '', component: RentalListComponent },
+      {
+        path: '',
+        component: RentalListComponent
+      },
       {
         path: ':rentalId',
         component: RentalDetailComponent,
