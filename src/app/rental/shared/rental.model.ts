@@ -15,4 +15,5 @@ export class Rental {
   shared: boolean;
   createdAt: string;
   bookings: Booking;
+  user: any;
 }

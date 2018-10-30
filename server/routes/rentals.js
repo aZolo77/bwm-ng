@@ -6,6 +6,21 @@ const User = require('../models/user');
 const UserCtrl = require('../controllers/user');
 const { normalizeErrors } = require('../helpers/mongoose');
 
+// = managing rentals (find all rentals created by this User)
+router.get('/manage', UserCtrl.authMiddlewear, (req, res) => {
+  const user = res.locals.user;
+
+  Rental.where({ user })
+    .populate('bookings')
+    .exec((err, foundRentals) => {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      return res.json(foundRentals);
+    });
+});
+
 // = find rental by its ID
 router.get('/:id', (req, res) => {
   const rentalId = req.params.id;
@@ -52,9 +67,8 @@ router.get('', (req, res) => {
     });
 });
 
-// creating a new Rental
+// = creating a new Rental
 router.post('', UserCtrl.authMiddlewear, (req, res) => {
-  //
   const user = res.locals.user;
   const {
     title,
@@ -99,6 +113,53 @@ router.post('', UserCtrl.authMiddlewear, (req, res) => {
 
     return res.json(newRental);
   });
+});
+
+// = delete Rental
+router.delete('/:id', UserCtrl.authMiddlewear, (req, res) => {
+  const user = res.locals.user;
+  Rental.findById(req.params.id)
+    .populate('user', '_id')
+    .populate({
+      path: 'bookings',
+      select: 'startAt',
+      match: { startAt: { $gt: new Date() } }
+    })
+    .exec((err, foundRental) => {
+      if (err) {
+        res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      // if this is not this Rental owner
+      if (user.id !== foundRental.user.id) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: 'Invalid User',
+              detail: `You are not this Rental owner!`
+            }
+          ]
+        });
+      }
+
+      // if there are still active bookings on this Rental
+      if (foundRental.bookings.length > 0) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: 'Active Bookings',
+              detail: `Cannot delete Rental with active Bookings!`
+            }
+          ]
+        });
+      }
+
+      foundRental.remove(err => {
+        if (err) {
+          res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        return res.status(200).json({ status: 'deleted' });
+      });
+    });
 });
 
 module.exports = router;

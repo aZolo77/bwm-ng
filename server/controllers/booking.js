@@ -4,6 +4,7 @@ const Rental = require('../models/rental');
 const User = require('../models/user');
 const { normalizeErrors } = require('../helpers/mongoose');
 
+// = creating new Booking
 exports.createBooking = function(req, res) {
   // = geting booking data from Client request (form)
   const { startAt, endAt, totalPrice, guests, days, rental } = req.body;
@@ -68,6 +69,21 @@ exports.createBooking = function(req, res) {
           ]
         });
       }
+    });
+};
+
+// = get all bookings created by this User
+exports.getUserBookings = function(req, res) {
+  const user = res.locals.user;
+
+  Booking.where({ user })
+    .populate('rental')
+    .exec((err, foundBookings) => {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      return res.json(foundBookings);
     });
 };
 
