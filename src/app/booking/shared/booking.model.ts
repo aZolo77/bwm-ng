@@ -12,4 +12,5 @@ export class Booking {
   days: number;
   createdAt: string;
   rental: Rental;
+  length?: any;
 }
