@@ -21,12 +21,12 @@ export class MapComponent {
       coords => {
         this.lat = coords.lat;
         this.lng = coords.lng;
-
         // = следить за обновлениями переменных
         this.ref.detectChanges();
       },
       err => {
         this.isPositionError = true;
+        this.ref.detectChanges();
       }
     );
   }
