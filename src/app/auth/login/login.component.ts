@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   // проверка на валидность инпута
-  private isInvalidForm(input): boolean {
+  public isInvalidForm(input): boolean {
     return (
       this.loginForm.controls[input].invalid &&
       (this.loginForm.controls[input].dirty ||
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   // submit form
-  private login() {
+  public login() {
     this.auth.login(this.loginForm.value).subscribe(
       data => {
         this.router.navigate(['/rentals']);

@@ -12,4 +12,9 @@ export class BookingService {
     // = use Proxy
     return this.http.post('/api/v1/bookings', booking);
   }
+
+  // = getting User Bookings
+  public getUserBookings(): Observable<any> {
+    return this.http.get('/api/v1/bookings/manage');
+  }
 }

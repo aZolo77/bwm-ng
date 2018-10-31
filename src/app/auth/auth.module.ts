@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { AuthComponent } from './auth.component';
+
 import { AuthService } from './shared/auth.service';
 import { AuthGuard } from './shared/auth.guard';
 // = to provide token in headers
@@ -16,7 +18,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [RegisterComponent, LoginComponent],
+  declarations: [RegisterComponent, LoginComponent, AuthComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
