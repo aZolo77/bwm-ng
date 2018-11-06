@@ -21,6 +21,32 @@ router.get('/manage', UserCtrl.authMiddlewear, (req, res) => {
     });
 });
 
+router.get('/:id/verify-user', UserCtrl.authMiddlewear, function(req, res) {
+  const rentalId = req.params.id;
+  const user = res.locals.user;
+
+  Rental.findById(rentalId)
+    .populate('user')
+    .exec(function(err, foundRental) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      if (foundRental.user.id !== user.id) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: 'Invalid User',
+              detail: 'You are not this rental owner'
+            }
+          ]
+        });
+      }
+
+      return res.json({ status: 'verified' });
+    });
+});
+
 // = find rental by its ID
 router.get('/:id', (req, res) => {
   const rentalId = req.params.id;
@@ -113,6 +139,42 @@ router.post('', UserCtrl.authMiddlewear, (req, res) => {
 
     return res.json(newRental);
   });
+});
+
+// = partial updating of certain Rental
+router.patch('/:id', UserCtrl.authMiddlewear, (req, res) => {
+  // get Rental Data from user-request
+  const rentalData = req.body;
+  const user = res.locals.user;
+
+  Rental.findById(req.params.id)
+    .populate('user')
+    .exec(function(err, foundRental) {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+
+      if (foundRental.user.id !== user.id) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: 'Invalid User',
+              detail: 'You are not this rental owner'
+            }
+          ]
+        });
+      }
+
+      // updating existing rental
+      foundRental.set(rentalData);
+      foundRental.save(function(err) {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+
+        return res.status(200).send(foundRental);
+      });
+    });
 });
 
 // = delete Rental
