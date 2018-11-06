@@ -1,14 +1,26 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectorRef,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { MapService } from './map.service';
+
+// Subject replaces EventEmitter
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'bwm-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent {
+export class MapComponent implements OnInit, OnDestroy {
   @Input()
   location: string;
+  // location emitter
+  @Input()
+  locationSubject: Subject<any>;
   isPositionError: boolean = false;
 
   lat: number;
@@ -16,8 +28,22 @@ export class MapComponent {
 
   constructor(public mapService: MapService, private ref: ChangeDetectorRef) {}
 
-  mapReadyHandler() {
-    this.mapService.getGeoLocation(this.location).subscribe(
+  ngOnInit() {
+    if (this.locationSubject) {
+      this.locationSubject.subscribe((newLocation: string) => {
+        this.getLocation(newLocation);
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.locationSubject) {
+      this.locationSubject.unsubscribe();
+    }
+  }
+
+  getLocation(location) {
+    this.mapService.getGeoLocation(location).subscribe(
       coords => {
         this.lat = coords.lat;
         this.lng = coords.lng;
@@ -29,5 +55,9 @@ export class MapComponent {
         this.ref.detectChanges();
       }
     );
+  }
+
+  mapReadyHandler() {
+    this.getLocation(this.location);
   }
 }

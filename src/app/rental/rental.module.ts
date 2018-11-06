@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { NgPipesModule } from 'ngx-pipes';
+import { NgPipesModule, UcWordsPipe } from 'ngx-pipes';
 import { MapModule } from '../common/map/map.module';
+import { EditableModule } from '../common/components/editable/editable.module';
 import { Daterangepicker } from 'ng2-daterangepicker';
 
 import { RentalComponent } from './rental.component';
@@ -14,6 +15,7 @@ import { RentalDetailComponent } from './rental-detail/rental-detail.component';
 import { RentalDetailBookingComponent } from './rental-detail/rental-detail-booking/rental-detail-booking.component';
 import { RentalSearchComponent } from './rental-search/rental-search.component';
 import { RentalCreateComponent } from './rental-create/rental-create.component';
+import { RentalUpdateComponent } from './rental-update/rental-update.component';
 
 import { RentalService } from './shared/rental.service';
 import { HelperService } from '../common/service/helper.service';
@@ -21,6 +23,7 @@ import { BookingService } from '../booking/shared/booking.service';
 import { UppercasePipe } from '../common/pipes/uppercase.pipe';
 
 import { AuthGuard } from '../auth/shared/auth.guard';
+import { RentalGuard } from './shared/rental.guard';
 
 // AuthGuard protection
 const routes: Routes = [
@@ -42,6 +45,11 @@ const routes: Routes = [
         component: RentalDetailComponent
       },
       {
+        path: ':rentalId/edit',
+        component: RentalUpdateComponent,
+        canActivate: [AuthGuard, RentalGuard]
+      },
+      {
         path: ':city/homes',
         component: RentalSearchComponent
       }
@@ -58,7 +66,8 @@ const routes: Routes = [
     UppercasePipe,
     RentalDetailBookingComponent,
     RentalSearchComponent,
-    RentalCreateComponent
+    RentalCreateComponent,
+    RentalUpdateComponent
   ],
   imports: [
     CommonModule,
@@ -67,8 +76,16 @@ const routes: Routes = [
     NgPipesModule,
     MapModule,
     Daterangepicker,
-    FormsModule
+    FormsModule,
+    EditableModule
   ],
-  providers: [RentalService, AuthGuard, HelperService, BookingService]
+  providers: [
+    RentalService,
+    AuthGuard,
+    RentalGuard,
+    HelperService,
+    BookingService,
+    UcWordsPipe
+  ]
 })
 export class RentalModule {}
