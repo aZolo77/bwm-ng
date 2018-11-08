@@ -1,4 +1,4 @@
-// определяем, какая среда разработки ???????!!!!
+// определяем, какая среда разработки
 if (process.env.NODE_ENV === 'production') {
   module.exports = require('./prod');
 } else {
