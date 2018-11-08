@@ -29,13 +29,13 @@ export class RentalCreateComponent implements OnInit {
   // обработка неудавшейся загрузки файла
   public handleImageError(err: any) {
     this.newRental.image = '';
-    console.log(err);
+    // console.log(err);
   }
 
   public createRental() {
     this.rentalService.createRental(this.newRental).subscribe(
       (rental: Rental) => {
-        console.log(rental);
+        // console.log(rental);
         this.router.navigate([`/rentals/${rental._id}`]);
       },
       (err: HttpErrorResponse) => {
