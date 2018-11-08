@@ -2,7 +2,8 @@
   <div class="upper-section">
     <div class="row">
       <div class="col-md-6">
-        <img src="{{rental.image}}" alt="" class="mb-3">
+        <!-- image update component -->
+        <bwm-editable-image [(entity)]="rental" [field]="'image'" (entityUpdated)="updateRental(rental._id, $event)"></bwm-editable-image>
       </div>
       <div class="col-md-6">
         <!-- google-maps -->

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgPipesModule, UcWordsPipe } from 'ngx-pipes';
 import { MapModule } from '../common/map/map.module';
 import { EditableModule } from '../common/components/editable/editable.module';
+import { ImageUploadModule } from '../common/components/image-upload/image-upload.module';
 import { Daterangepicker } from 'ng2-daterangepicker';
 
 import { RentalComponent } from './rental.component';
@@ -77,7 +78,8 @@ const routes: Routes = [
     MapModule,
     Daterangepicker,
     FormsModule,
-    EditableModule
+    EditableModule,
+    ImageUploadModule
   ],
   providers: [
     RentalService,

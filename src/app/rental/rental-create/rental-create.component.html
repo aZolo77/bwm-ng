@@ -33,8 +33,8 @@
           </div>
 
           <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" name="image" class="form-control" id="image" placeholder="Upload file..." (change)="handleImageChange()">
+            <!-- image upload component -->
+            <bwm-image-upload (imageUploaded)="handleImageUpload($event)" (imageError)="handleImageError($event)"></bwm-image-upload>
           </div>
 
           <div class="form-group">
@@ -67,7 +67,7 @@
               name="shared">
           </div>
 
-          <button type="button" class="btn btn-bwm" (click)="createRental()" [disabled]="rentalForm.form.invalid">Submit</button>
+          <button type="button" class="btn btn-bwm" (click)="createRental()" [disabled]="rentalForm.form.invalid || !newRental.image">Submit</button>
         </form>
       </div>
       <div class="col-md-6 ml-auto">
