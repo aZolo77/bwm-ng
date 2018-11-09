@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config');
-// const config = require('./config/dev');
 
 const FakeDb = require('./fake-db');
 const path = require('path');
@@ -11,7 +10,8 @@ const path = require('path');
 const rentalRoutes = require('./routes/rentals'),
   userRoutes = require('./routes/users'),
   bookingRoutes = require('./routes/bookings'),
-  imageUploadRoutes = require('./routes/image-upload');
+  imageUploadRoutes = require('./routes/image-upload'),
+  paymentRoutes = require('./routes/payments');
 
 mongoose
   .connect(config.DB_URI)
@@ -35,6 +35,7 @@ app.use('/api/v1/rentals', rentalRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/bookings', bookingRoutes);
 app.use('/api/v1', imageUploadRoutes);
+app.use('/api/v1/payments', paymentRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   // path to application

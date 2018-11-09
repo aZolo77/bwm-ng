@@ -48,6 +48,7 @@
     "ngx-image-cropper": "^1.0.1",
     "ngx-pipes": "^2.1.2",
     "rxjs": "^5.5.6",
+    "stripe": "^6.11.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
