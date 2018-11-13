@@ -37,7 +37,7 @@ export class PaymentComponent implements OnInit {
   error: string = '';
 
   constructor() {
-    this.stripe = Stripe(environment.STRIPE_PK);
+    this.stripe = Stripe(environment.STRIPE_SK);
     this.elements = this.stripe.elements();
 
     this.onChange = this.onChange.bind(this);

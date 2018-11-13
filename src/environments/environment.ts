@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  STRIPE_PK: 'pk_test_wAR2vFZaLtYiL6aLpwovsZcj'
+  STRIPE_SK: 'pk_test_wAR2vFZaLtYiL6aLpwovsZcj'
 };
