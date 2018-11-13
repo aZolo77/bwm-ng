@@ -52,7 +52,7 @@
       <div class="col-md-4" *ngFor="let payment of payments">
         <div class="card text-center">
           <div class="card-header">
-            <!-- Booking made by {{ payment.fromUser.username }} -->
+            Booking made by {{ payment.fromUser.username }}
           </div>
           <div class="card-block">
             <ng-container *ngIf="payment.booking.rental">
@@ -70,11 +70,16 @@
               {{ payment.booking.days }} days
             </p>
             <p class="card-text mb-2">
-              <span>Price: </span>
+              <span>Revenue: </span>
               <span class="booking-price-value"
-                >{{ payment.booking.totalPrice }} $</span
+                >{{ payment.amount / 100 }} $</span
               >
             </p>
+            <p class="card-text mb-2">
+              <span>Status: </span>
+              <span class="booking-price-value">{{ payment.status }}</span>
+            </p>
+
             <a
               class="btn btn-bwm"
               routerLink="/rentals/{{payment.booking.rental._id}}"
@@ -84,6 +89,15 @@
           </div>
           <div class="card-footer text-muted">
             Created {{ payment.booking.createdAt | formatDate }}
+
+            <div *ngIf="payment.status === 'pending'">
+              <button class="btn btn-success" (click)="acceptPayment(payment)">
+                Confirm
+              </button>
+              <button class="btn btn-danger" (click)="declinePayment(payment)">
+                Decline
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,0 +1,177 @@
+<div class="container bootstrap snippet" *ngIf="user">
+  <div class="row">
+    <div class="col-sm-10">
+      <h1>{{ user.username }}</h1>
+    </div>
+    <div class="col-sm-2">
+      <div class="text-right revenue">
+        Revenue: {{ user.revenue ? user.revenue / 100 : 0 }} $
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- left col -->
+    <div class="col-sm-3">
+      <div class="text-center">
+        <img
+          src="https://api.adorable.io/avatars/285/abott@adorable.png"
+          class="avatar img-circle img-thumbnail mb-1"
+          alt="avatar"
+        />
+        <!--
+          <h6>Upload a different photo...</h6>
+          <input type="file" class="text-center center-block file-upload" />
+        -->
+      </div>
+
+      <ul class="list-group mt-2">
+        <li class="list-group-item text-muted">
+          Activity <i class="fa fa-dashboard fa-1x"></i>
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Rentals</strong></span>
+          {{ user.rentals.length }}
+        </li>
+        <li class="list-group-item text-right">
+          <span class="pull-left"><strong>Bookings</strong></span>
+          {{ user.bookings.length }}
+        </li>
+        <!--
+          <li class="list-group-item text-right">
+            <span class="pull-left"><strong>Posts</strong></span> 37
+          </li>
+          <li class="list-group-item text-right">
+            <span class="pull-left"><strong>Followers</strong></span> 78
+          </li>
+        -->
+      </ul>
+
+      <!--
+        <div class="panel panel-default mt-2">
+          <div class="panel-heading">Social Media</div>
+          <div class="panel-body">
+            <i class="fa fa-facebook fa-2x"></i>
+            <i class="fa fa-github fa-2x"></i>
+            <i class="fa fa-twitter fa-2x"></i>
+            <i class="fa fa-pinterest fa-2x"></i>
+            <i class="fa fa-google-plus fa-2x"></i>
+          </div>
+        </div>
+      -->
+    </div>
+    <!-- /col-3 -->
+
+    <!-- right col -->
+    <div class="col-sm-9">
+      <!-- tabs menu -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+          <a data-toggle="tab" href="#home" class="nav-link active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a data-toggle="tab" href="#settings" class="nav-link">Settings</a>
+        </li>
+      </ul>
+      <!-- /tabs menu -->
+
+      <!-- tab-content -->
+      <div class="tab-content">
+        <!-- tab-pane 1 -->
+        <div class="tab-pane active mt-2" id="home">
+          <form class="form">
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="username"><h4>Username</h4></label>
+                <input
+                  [(ngModel)]="user.username"
+                  type="text"
+                  class="form-control"
+                  name="username"
+                  id="username"
+                  placeholder="username"
+                  title="enter your first name if any."
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="email"><h4>Email</h4></label>
+                <input
+                  [(ngModel)]="user.email"
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  placeholder="your@email.com"
+                  title="enter your email."
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <br />
+                <button class="btn btn-lg btn-success" type="submit">
+                  <i class="glyphicon glyphicon-ok-sign"></i> Save
+                </button>
+                <button class="btn btn-lg" type="reset">
+                  <i class="glyphicon glyphicon-repeat"></i> Reset
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /tab-pane 1 -->
+
+        <!-- tab-pane 2 -->
+        <div class="tab-pane mt-2" id="settings">
+          <form class="form">
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="option1"><h4>Option 1</h4></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="option1"
+                  id="option1"
+                  placeholder="option 1"
+                  title="option not decided yet"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="option2"><h4>Option 2</h4></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="option2"
+                  id="option2"
+                  placeholder="option 2"
+                  title="option not decided yet"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <br />
+                <button class="btn btn-lg btn-success" type="submit">
+                  <i class="glyphicon glyphicon-ok-sign"></i> Save
+                </button>
+                <button class="btn btn-lg" type="reset">
+                  <i class="glyphicon glyphicon-repeat"></i> Reset
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- /tab-pane 2 -->
+      </div>
+      <!-- /tab-content -->
+    </div>
+    <!-- /tab-content -->
+  </div>
+  <!-- /col-9 -->
+</div>
+<!-- /row -->

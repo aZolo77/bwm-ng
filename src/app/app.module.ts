@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { UserModule } from './user/user.module';
 import { RentalModule } from './rental/rental.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthModule } from './auth/auth.module';
@@ -25,7 +26,8 @@ const routes: Routes = [
     ManageModule,
     NgbModule.forRoot(),
     BrowserAnimationsModule,
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    UserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

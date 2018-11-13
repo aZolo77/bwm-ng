@@ -1,46 +1,86 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" routerLink="/rentals">
-    BookWithhMe<img src="favicon.ico" alt="">
+    BookWithhMe<img src="favicon.ico" alt="" />
   </a>
   <!-- searchInput -->
   <div class="form-inline">
-    <input #citySearch class="form-control mr-sm-2 bwm-search" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success my-2 my-sm-0 btn-bwm-search" type="button" (click)="search(citySearch.value)"
-      ng-keypress="($event.which === 13)?search(citySearch.value): 0">Search</button>
+    <input
+      #citySearch
+      class="form-control mr-sm-2 bwm-search"
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+    />
+    <button
+      class="btn btn-outline-success my-2 my-sm-0 btn-bwm-search"
+      type="button"
+      (click)="search(citySearch.value)"
+      ng-keypress="($event.which === 13)?search(citySearch.value): 0"
+    >
+      Search
+    </button>
   </div>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-    aria-expanded="false" aria-label="Toggle navigation">
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <ng-container *ngIf="!auth.isAuthenticated()">
         <li class="nav-item">
-          <a class="nav-link" routerLink="/login" routerLinkActive="active-link">Login <span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/login" routerLinkActive="active-link"
+            >Login <span class="sr-only">(current)</span></a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/register" routerLinkActive="active-link">Register</a>
+          <a
+            class="nav-link"
+            routerLink="/register"
+            routerLinkActive="active-link"
+            >Register</a
+          >
         </li>
       </ng-container>
 
       <ng-container *ngIf="auth.isAuthenticated()">
         <li class="nav-item">
-          <a class="nav-link">{{auth.getUserName()}}</a>
+          <a class="nav-link" routerLink="/users/profile">{{
+            auth.getUserName()
+          }}</a>
         </li>
         <div class="nav-item dropdown clickable">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             Owner Section
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" routerLink="/users/profile">Profile</a>
             <a class="dropdown-item" routerLink="/rentals/new">Create Rental</a>
-            <a class="dropdown-item" routerLink="/manage/rentals">Manage Rentals</a>
-            <a class="dropdown-item" routerLink="/manage/bookings">Manage Bookings</a>
+            <a class="dropdown-item" routerLink="/manage/rentals"
+              >Manage Rentals</a
+            >
+            <a class="dropdown-item" routerLink="/manage/bookings"
+              >Manage Bookings</a
+            >
           </div>
         </div>
         <li class="nav-item clickable">
-          <a class="nav-link" routerLink="/register" (click)="logout()">Logout</a>
+          <a class="nav-link" routerLink="/register" (click)="logout()"
+            >Logout</a
+          >
         </li>
       </ng-container>
     </ul>
