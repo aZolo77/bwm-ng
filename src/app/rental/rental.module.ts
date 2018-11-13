@@ -8,6 +8,7 @@ import { MapModule } from '../common/map/map.module';
 import { EditableModule } from '../common/components/editable/editable.module';
 import { ImageUploadModule } from '../common/components/image-upload/image-upload.module';
 import { Daterangepicker } from 'ng2-daterangepicker';
+import { PaymentModule } from '../payment/payment.module';
 
 import { RentalComponent } from './rental.component';
 import { RentalListComponent } from './rental-list/rental-list.component';
@@ -79,7 +80,8 @@ const routes: Routes = [
     Daterangepicker,
     FormsModule,
     EditableModule,
-    ImageUploadModule
+    ImageUploadModule,
+    PaymentModule
   ],
   providers: [
     RentalService,

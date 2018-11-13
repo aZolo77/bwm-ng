@@ -2,7 +2,33 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const { normalizeErrors } = require('../helpers/mongoose');
 const config = require('../config');
-// const config = require('../config/dev');
+
+// display User info
+exports.getUser = function(req, res) {
+  const requestedUserId = req.params.id;
+  const user = res.locals.user;
+
+  if (requestedUserId === user.id) {
+    // send all User info
+    User.findById(requestedUserId, (err, foundUser) => {
+      if (err) {
+        return res.status(422).send({ errors: normalizeErrors(err.errors) });
+      }
+      return res.json(foundUser);
+    });
+  } else {
+    // restricted User info
+    User.findById(requestedUserId)
+      //hiding attributes
+      .select('-revenue -stripeCustomerId -password -email -_id')
+      .exec((err, foundUser) => {
+        if (err) {
+          return res.status(422).send({ errors: normalizeErrors(err.errors) });
+        }
+        return res.json(foundUser);
+      });
+  }
+};
 
 exports.auth = function(req, res) {
   const { email, password } = req.body;
@@ -131,7 +157,7 @@ exports.authMiddlewear = function(req, res, next) {
       }
 
       if (user) {
-        // pass user to the next function
+        // save user to locals
         res.locals.user = user;
         next();
       } else {
